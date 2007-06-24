@@ -46,10 +46,12 @@ is important: the _django-logging_ middleware *must* come before any other
 middleware that encodes the response's content (such as GZipMiddleware).
 
 As a security measure, the _django-logging_ middleware will only operate when
-[http://www.djangoproject.com/documentation/settings/#debug DEBUG] is set to
-`True` and your IP address is in
-[http://www.djangoproject.com/documentation/settings/#internal-ips INTERNAL_IPS].
-You'll therefore need to set these appropriately.
+your IP address is in
+[http://www.djangoproject.com/documentation/settings/#internal-ips INTERNAL_IPS]
+*and* either:
+  * `LOGGING_OUTPUT_ENABLED` is set to `True`; or
+  * `LOGGING_OUTPUT_ENABLED` is undefined and [http://www.djangoproject.com/documentation/settings/#debug DEBUG] is set to `True`.
+You'll therefore need to set these values within your [http://www.djangoproject.com/documentation/settings/ settings file] appropriately.
 
 That's it!
 
@@ -102,8 +104,9 @@ as passwords), this will be displayed verbatim in clear text.
 _django-logging_ should just work "out of the box", but you can configure the
 following options in your Django settings file:
 
-|| *Variable*                    || *Default* || *Description* ||
-|| `LOGGING_INTERCEPT_REDIRECTS` || `False`   || Setting this to `True` will cause _django-logging_ to intercept any HTTP redirects and output an interim page to allow you to see any messages that would have otherwise been lost. ||
+|| *Variable*                    || *Default*        || *Description* ||
+|| `LOGGING_INTERCEPT_REDIRECTS` || `False`          || Setting this to `True` will cause _django-logging_ to intercept any HTTP redirects and output an interim page to allow you to see any messages that would have otherwise been lost. ||
+|| `LOGGING_OUTPUT_ENABLED`      || `settings.DEBUG` || Setting this to `True` will cause _django-logging_ to be active and write the log data into outputted HTML pages. Setting this to `False` will prevent _django-logging_ from outputting the log data. ||
 
 = Future Features =
 
