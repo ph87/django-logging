@@ -93,7 +93,8 @@ per-thread basis. This equates to a per-request basis within Django.
 After the request has been processed and response generated, the middleware
 checks if the response is a HTML page (i.e. has a `Content-Type` header of
 `text/html`). If so, it writes the request's log messages into the HTML
-document.
+document. Extra HTTP headers are also added to indicate that the rewritten
+page should not be cached.
 
 Note that unlike the built-in Django debug pages, _django-logging_ does not
 sanitise any of the content; that is if you log any sensitve information (such
