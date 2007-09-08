@@ -108,6 +108,7 @@ following options in your Django settings file:
 || *Variable*                    || *Default*        || *Description* ||
 || `LOGGING_INTERCEPT_REDIRECTS` || `False`          || Setting this to `True` will cause _django-logging_ to intercept any HTTP redirects and output an interim page to allow you to see any messages that would have otherwise been lost. ||
 || `LOGGING_OUTPUT_ENABLED`      || `settings.DEBUG` || Setting this to `True` will cause _django-logging_ to be active and write the log data into outputted HTML pages. Setting this to `False` will prevent _django-logging_ from outputting the log data. ||
+|| `LOGGING_TEMPLATE_DIR`        || _Auto determined_ || If you wish to use your own templates, set this to the *full* path to the directory containing your templates. This directory should contain your own versions of all the standard template files: _logging.html_, _logging.css_ and _redirect.html_. ||
 
 = Future Features =
 
