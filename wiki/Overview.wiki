@@ -29,8 +29,8 @@ somewhere on your `PYTHONPATH`:
 svn co http://django-logging.googlecode.com/svn/trunk/djangologging/ djangologging
 }}}
 
-All you should then need to do is add the _django-logging_ middleware to your
-Django project's settings file:
+*Step 1.* Add the _django-logging_ middleware to your Django project's settings
+file:
 
 {{{
 MIDDLEWARE_CLASSES = (
@@ -45,7 +45,7 @@ The order of
 is important: the _django-logging_ middleware *must* come before any other
 middleware that encodes the response's content (such as GZipMiddleware).
 
-As a security measure, the _django-logging_ middleware will only operate when
+*Step 2.* As a security measure, the _django-logging_ middleware will only operate when
 your IP address is in
 [http://www.djangoproject.com/documentation/settings/#internal-ips INTERNAL_IPS]
 *and* either:
@@ -53,7 +53,8 @@ your IP address is in
   * `LOGGING_OUTPUT_ENABLED` is undefined and [http://www.djangoproject.com/documentation/settings/#debug DEBUG] is set to `True`.
 You'll therefore need to set these values within your [http://www.djangoproject.com/documentation/settings/ settings file] appropriately.
 
-That's it!
+*That's it!* _(See the Configuration section below for information on the
+various configurable options.)_
 
 = Usage =
 
@@ -105,9 +106,11 @@ as passwords), this will be displayed verbatim in clear text.
 _django-logging_ should just work "out of the box", but you can configure the
 following options in your Django settings file:
 
-|| *Variable*                    || *Default*        || *Description* ||
-|| `LOGGING_INTERCEPT_REDIRECTS` || `False`          || Setting this to `True` will cause _django-logging_ to intercept any HTTP redirects and output an interim page to allow you to see any messages that would have otherwise been lost. ||
-|| `LOGGING_OUTPUT_ENABLED`      || `settings.DEBUG` || Setting this to `True` will cause _django-logging_ to be active and write the log data into outputted HTML pages. Setting this to `False` will prevent _django-logging_ from outputting the log data. ||
+|| *Variable*                    || *Default*         || *Description* ||
+|| `LOGGING_INTERCEPT_REDIRECTS` || `False`           || Setting this to `True` will cause _django-logging_ to intercept any HTTP redirects and output an interim page to allow you to see any messages that would have otherwise been lost. ||
+|| `LOGGING_LOG_SQL`             || `False`           || Setting this to `True` and having `settings.DEBUG` set to `True` will cause _django-logging_ to log all SQL queries made through `django.db.connection` to be logged at a custom level, `SQL`. ||
+|| `LOGGING_OUTPUT_ENABLED`      || `settings.DEBUG`  || Setting this to `True` will cause _django-logging_ to be active and write the log data into outputted HTML pages. Setting this to `False` will prevent _django-logging_ from outputting the log data. ||
+|| `LOGGING_SHOW_METRICS`        || `True`            || Setting this to `True` will cause _django-logging_ calculate and display basic metric information, such as request duration and number of database queries. ||
 || `LOGGING_TEMPLATE_DIR`        || _Auto determined_ || If you wish to use your own templates, set this to the *full* path to the directory containing your templates. This directory should contain your own versions of all the standard template files: _logging.html_, _logging.css_ and _redirect.html_. ||
 
 = Future Features =
@@ -115,7 +118,6 @@ following options in your Django settings file:
 Some things I'd like to add when I get the time:
 
   * Ability to view the stack/frame information of each message in a similar way to the Django debug error page.
-  * Logging of all the SQL statements that get executed.
   * Ability to view the messages from other loggers, not just the _root_ logger.
 
 = Feedback =
