@@ -113,6 +113,20 @@ following options in your Django settings file:
 || `LOGGING_SHOW_METRICS`        || `True`            || Setting this to `True` will cause _django-logging_ calculate and display basic metric information, such as request duration and number of database queries. ||
 || `LOGGING_TEMPLATE_DIR`        || _Auto determined_ || If you wish to use your own templates, set this to the *full* path to the directory containing your templates. This directory should contain your own versions of all the standard template files: _logging.html_, _logging.css_ and _redirect.html_. ||
 
+= Output suppression =
+
+If there is a particular view that generates log messages that should not be
+appended to the page, you can use the `supress_logging_output` decorator. For
+example:
+
+{{{
+from djangologging.decorators import supress_logging_output
+
+@supress_logging_output
+def some_view(request):
+    ...
+}}}
+
 = Future Features =
 
 Some things I'd like to add when I get the time:
