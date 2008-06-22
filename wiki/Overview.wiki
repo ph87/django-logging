@@ -42,7 +42,7 @@ MIDDLEWARE_CLASSES = (
 
 The order of 
 [http://www.djangoproject.com/documentation/settings/#middleware-classes MIDDLEWARE_CLASSES]
-is important: the _django-logging_ middleware *must* come before any other
+is important: the _django-logging_ middleware must come *after* any other
 middleware that encodes the response's content (such as GZipMiddleware).
 
 *Step 2.* As a security measure, the _django-logging_ middleware will only operate when
