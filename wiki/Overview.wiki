@@ -16,6 +16,12 @@ While useful, these both have their limitations. Python had a
 so _django-logging_ was created to allow it to be easily used within Django
 projects.
 
+=== What's new ===
+
+Eric Holscher has recently made a [http://ericholscher.com/blog/2008/aug/29/screencast-2-logging-fun-and-profit/ nice screencast] which includes a brief demonstration of _django-logging_ in action.
+
+[http://ericholscher.com/blog/2008/aug/29/screencast-2-logging-fun-and-profit/ http://images.vimeo.com/12/59/94/125994988/125994988_100x75.jpg]
+
 = Installation =
 
 _It's assumed that you have at least a basic knowledge of Django, Python and
