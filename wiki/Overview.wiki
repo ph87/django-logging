@@ -18,7 +18,8 @@ projects.
 
 === What's new ===
 
-Eric Holscher has recently made a [http://ericholscher.com/blog/2008/aug/29/screencast-2-logging-fun-and-profit/ nice screencast] which includes a brief demonstration of _django-logging_ in action.
+  * 8 Sep 2008 - Added Pygments syntax highlighting and source code frame inspection  
+  * 30 Aug 2008 - Eric Holscher has recently made a [http://ericholscher.com/blog/2008/aug/29/screencast-2-logging-fun-and-profit/ nice screencast] which includes a brief demonstration of _django-logging_ in action.
 
 [http://ericholscher.com/blog/2008/aug/29/screencast-2-logging-fun-and-profit/ http://images.vimeo.com/12/59/94/125994988/125994988_100x75.jpg]
 
@@ -114,7 +115,7 @@ following options in your Django settings file:
 
 || *Variable*                    || *Default*         || *Description* ||
 || `LOGGING_INTERCEPT_REDIRECTS` || `False`           || Setting this to `True` will cause _django-logging_ to intercept any HTTP redirects and output an interim page to allow you to see any messages that would have otherwise been lost. ||
-|| `LOGGING_LOG_SQL`             || `False`           || Setting this to `True` and having `settings.DEBUG` set to `True` will cause _django-logging_ to log all SQL queries made through `django.db.connection` to be logged at a custom level, `SQL`. ||
+|| `LOGGING_LOG_SQL`             || `False`           || Setting this to `True` and having `settings.DEBUG` set to `True` will cause _django-logging_ to log all SQL queries made through `django.db.connection` to be logged at a custom level, `SQL`. If installed, the [http://pygments.org/ Pygments] syntax highlighter will be used to pretty print the SQL. ||
 || `LOGGING_OUTPUT_ENABLED`      || `settings.DEBUG`  || Setting this to `True` will cause _django-logging_ to be active and write the log data into outputted HTML pages. Setting this to `False` will prevent _django-logging_ from outputting the log data. ||
 || `LOGGING_SHOW_METRICS`        || `True`            || Setting this to `True` will cause _django-logging_ calculate and display basic metric information, such as request duration and number of database queries. ||
 || `LOGGING_TEMPLATE_DIR`        || _Auto determined_ || If you wish to use your own templates, set this to the *full* path to the directory containing your templates. This directory should contain your own versions of all the standard template files: _logging.html_, _logging.css_ and _redirect.html_. ||
