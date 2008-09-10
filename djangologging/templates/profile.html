@@ -1,0 +1,79 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title>Request profile</title>
+	<style type="text/css">
+	<!--
+		body {
+			padding: 0;
+			margin: 0;
+		}
+		body * { padding:10px 20px; }
+		body * * { padding:0; }
+		body { font:small sans-serif; background:#f6f6f6; }
+		h1 {
+			background: #ffc;
+			border-bottom:1px solid #ddd;
+			font-weight:normal;
+			margin: 0;
+		}
+		
+		#tabs {
+			background: #eee;
+			border-bottom: 1px solid #ddd;
+			float: left;
+			line-height: 2em;
+			margin: 0 0 .4em;
+			padding: .4em 0 0;
+			width: 100%;
+		}
+		#tabs li {
+			border: 1px solid #ddd;
+			background: #f6f6f6;
+			float: left;
+			list-style: none;
+			margin: 0 0 -1px 2em;
+			padding: 0;
+		}
+		#tabs li.current {
+			border-bottom-color: #f6f6f6;
+		}
+		#tabs a, #tabs strong {
+			display: block;
+			padding: 0 2em;
+			text-decoration: none;
+		}
+		#tabs a:hover {
+			text-decoration: underline;
+		}
+		
+		#help {
+			position: absolute;
+			margin: 0;
+			padding: 0;
+			right: 1em;
+			top: 1em;
+		}
+		
+		{% block extrastyle %}{% endblock %}
+	-->
+	</style>
+</head>
+<body>
+	<h1>Request profile</h1>
+	
+	{% block tabs %}
+		<ul id="tabs">
+			<li class="statistics current"><strong>Statistics</strong></li>
+			<li class="graph"><a href="{{ graph_url|escape }}"{% if dot and gprof2dot %} onclick="return confirm('Generating the graph image may be processor intensive and take some time.\n\nDo you wish to continue?');"{% endif %}>Graph</a></li>
+		</ul>
+	{% endblock %}
+	
+	<p id="help">{% block help %}{% endblock %}</p>
+	
+	{% block content %}
+		<pre>{{ stats|escape }}</pre>
+	{% endblock %}
+</body>
+</html>

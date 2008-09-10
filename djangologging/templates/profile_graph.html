@@ -1,0 +1,249 @@
+{% extends "profile.html" %}
+	
+{% block tabs %}
+	<ul id="tabs">
+		<li class="statistics"><a href="{{ statistics_url|escape }}">Statistics</a></li>
+		<li class="graph current"><strong>Graph</strong></li>
+	</ul>
+{% endblock %}
+
+{% block extrastyle %}
+
+body.dragging, body.dragging #container {
+	cursor: url(../../media/grabbing.cur);
+}
+
+#container {
+	clear: both;
+	cursor: move;
+	cursor: url(../../media/grab.cur);
+	overflow: hidden;
+	padding: 0;
+	position: relative;
+}
+#container div {
+	position: absolute;
+}
+#container p.loading {
+	position: absolute;
+	left: 50%;
+	margin-left: -110px;
+	margin-top: -10px;
+	top: 50%;
+}
+#container div.birdseye {
+	background: #f6f6f6;
+	border-right:1px solid #ddd;
+	border-top:1px solid #ddd;
+	bottom: 0;
+	overflow: hidden;
+}
+#container div.birdseye img {
+	width: 100px;
+}
+#container div.birdseye div {
+	border: 1px solid red;
+	height: 20px;
+	width: 20px;
+	top: 0;
+	left: 0;
+}
+
+#requirements {
+	clear: both;
+	margin: 1em;
+}
+#requirements li {
+	background: #eee;
+	list-style: none;
+	padding: .5em 1em;
+	margin-bottom: 2em;
+}
+#requirements li li {
+	list-style: disc;
+	padding: 0;
+	margin: 0 0 0 2em;
+}
+#requirements p {
+	margin: 0;
+	padding: .5em 0;
+}
+#requirements .found {
+	color: #393;
+	font-weight: bold;
+}
+
+#requirements .notfound {
+	color: #c33;
+	font-weight: bold;
+}
+
+#requirements .found span,
+#requirements .notfound span {
+	font-size: 300%;
+}
+
+{% endblock %}
+
+{% block help %}
+	{% if dot and gprof2dot %}
+		<a href="http://code.google.com/p/jrfonseca/wiki/Gprof2Dot#Output" target="_blank">How to interpret the graph</a>
+	{% endif %}
+{% endblock %}
+
+{% block content %}
+
+	{% if dot and gprof2dot %}
+	
+		<div id="container">
+			<p class="loading"><img src="../../media/loading.gif" alt="Loading, please wait..." /></p>
+			<div><img src="{{ image_url|escape }}" longdesc="{{ statistics_url|escape }}" alt="" /></div>
+			<div class="birdseye">
+				<img src="{{ image_url|escape }}" alt="" />
+				<div></div>
+			</div>
+		</div>
+		
+		<script type="text/javascript">
+		
+			function addListener(element, event, listener) {
+				if (element.attachEvent) {
+					element.attachEvent('on' + event, listener);
+				} else {
+					element.addEventListener(event, listener, false);
+				}
+			}
+		
+			var container = document.getElementById('container');
+			var div = container.getElementsByTagName('div')[0];
+			
+			function resizeContainer() {
+				var windowHeight = document.documentElement.clientHeight;
+				container.style.height = windowHeight - container.offsetTop - 1 + 'px';
+			}
+			addListener(window, 'resize', resizeContainer);
+			resizeContainer();
+			
+			function updateBirdseye() {
+				var birdseye = container.getElementsByTagName('div')[1];
+				var viewport = birdseye.getElementsByTagName('div')[0];
+
+				var heightRatio = container.offsetHeight / div.offsetHeight;
+				var leftRatio = -div.offsetLeft / div.offsetWidth;
+				var topRatio = -div.offsetTop / div.offsetHeight;
+				var widthRatio = container.offsetWidth / div.offsetWidth;
+				
+				viewport.style.height = birdseye.offsetHeight * heightRatio + 'px';
+				viewport.style.left = birdseye.offsetWidth * leftRatio + 'px';
+				viewport.style.top = birdseye.offsetHeight * topRatio + 'px';
+				viewport.style.width = birdseye.offsetWidth * widthRatio + 'px';
+			}
+			addListener(window, 'load', updateBirdseye);
+			addListener(window, 'resize', updateBirdseye);
+			
+	
+			var dragging = false;
+			var pickupX = 0, pickupY = 0;
+		
+			addListener(container, 'mousedown', function(event) {
+				event = event || window.event;
+				var mouseX = event.clientX - container.offsetLeft;
+				var mouseY = event.clientY - container.offsetTop;
+				pickupX = mouseX - div.offsetLeft;
+				pickupY = mouseY - div.offsetTop;
+				dragging = true;
+				document.body.className = 'dragging';
+				event.cancelBubble = true;
+				event.returnValue = false;
+				if (event.preventDefault) event.preventDefault();
+				return false;
+			});
+			
+			addListener(document, 'mouseup', function(event) {
+				dragging = false;
+				document.body.className = '';
+			});
+			
+			addListener(document, 'mousemove', function(event) {
+				event = event || window.event;
+				if (dragging) {
+				
+					var mouseX = event.clientX - container.offsetLeft;
+					var mouseY = event.clientY - container.offsetTop;
+					
+					var x = mouseX - pickupX;
+					var y = mouseY - pickupY;
+					
+					var minX = container.offsetWidth - div.offsetWidth;
+					var minY = container.offsetHeight - div.offsetHeight;
+					
+					if (x < minX) x = minX;
+					if (y < minY) y = minY;
+					
+					if (x > 0) x = 0;
+					if (y > 0) y = 0;
+					
+					
+					div.style.left = x + 'px';
+					div.style.top = y + 'px';
+					
+					updateBirdseye();
+				}
+			});
+			
+			addListener(container.getElementsByTagName('img')[0], 'dragstart', function(event) {
+				event = event || window.event;
+				document.title = new Date();
+				event.returnValue = false;
+				event.cancelBubble = true;
+			});
+			
+			addListener(document, 'selectstart', function(event) {
+				event = event || window.event;
+				event.returnValue = false;
+				event.cancelBubble = true;
+			});
+			
+		</script>
+	
+	{% else %}
+	
+		<div id="requirements">
+			<p>To view a graph of the selected request's function calls, you need the following installed:</p>
+			<ul>
+				<li>
+					<p><strong>gprof2dot</strong></p>
+					<p>This is a Python script which converts {{ profiler_name|escape }} data into a dot graph definition.</p>
+					{% if gprof2dot %}
+						<p class="found"><span>&#x2611;</span> Found at {{ gprof2dot|escape }}</p>
+					{% else %}
+						<p class="notfound"><span>&#x2612;</span> The 'gprof2dot.py' script could not be found in any of the the PYTHONPATH locations:</p>
+						<ul class="notfound">
+							{% for p in pythonpath %}
+								<li>{{ p|escape }}</li>
+							{% endfor %}
+						</ul>
+						<p>Download from <a href="http://jrfonseca.googlecode.com/svn/trunk/gprof2dot/gprof2dot.py">http://jrfonseca.googlecode.com/svn/trunk/gprof2dot/gprof2dot.py</a> an install somewhere on the PYTHONPATH.</p>
+					{% endif %}
+				</li>
+				<li>			
+					<p><strong>dot</strong></p>
+					<p>Part of the <em>Graphviz</em> library which renders a graph definition into an image.</p>
+					{% if dot %}
+						<p class="found"><span>&#x2611;</span> Found at {{ dot|escape }}</p>
+					{% else %}
+						<p class="notfound"><span>&#x2612;</span> The 'dot' executable could not be found in any of the PATH locations:</p>
+						<ul class="notfound">
+							{% for p in path %}
+								<li>{{ p|escape }}</li>
+							{% endfor %}
+						</ul>
+						<p>Download from <a href="http://www.graphviz.org/">http://www.graphviz.org/</a> and install such that the <em>dot</em> executable is on the PATH.</p>
+						<p>After installing, you may need to restart the program from which you launch Django to force a reload of the PATH environment variable.</p>
+					{% endif %}
+				</li>
+			</ul>
+		</div>
+	
+	{% endif %}
+{% endblock %}
