@@ -124,13 +124,13 @@ following options in your Django settings file:
 = Output suppression =
 
 If there is a particular view that generates log messages that should not be
-appended to the page, you can use the `supress_logging_output` decorator. For
+appended to the page, you can use the `suppress_logging_output` decorator. For
 example:
 
 {{{
-from djangologging.decorators import supress_logging_output
+from djangologging.decorators import suppress_logging_output
 
-@supress_logging_output
+@suppress_logging_output
 def some_view(request):
     ...
 }}}
