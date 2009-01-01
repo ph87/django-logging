@@ -54,13 +54,15 @@ The order of
 is important: the _django-logging_ middleware must come *after* any other
 middleware that encodes the response's content (such as GZipMiddleware).
 
-*Step 2.* As a security measure, the _django-logging_ middleware will only operate when
-your IP address is in
-[http://docs.djangoproject.com/en/dev/ref/settings/#internal-ips INTERNAL_IPS]
-*and* either:
-  * `LOGGING_OUTPUT_ENABLED` is set to `True`; or
+*Step 2.* The _django-logging_ middleware will only operate if your IP address is in the [http://docs.djangoproject.com/en/dev/ref/settings/#internal-ips INTERNAL_IPS] setting, so you will have to set this appropriately. If you're working locally, you may need to set this to something like:  
+
+{{{
+INTERNAL_IPS = ('127.0.0.1',)
+}}}
+
+*Step 3.* As an additional security measure, the _django-logging_ middleware will only add its output to HTML pages when:
+  * `LOGGING_OUTPUT_ENABLED` is set to `True`; *or*
   * `LOGGING_OUTPUT_ENABLED` is undefined and [http://docs.djangoproject.com/en/dev/ref/settings/#debug DEBUG] is set to `True`.
-You'll therefore need to set these values within your [http://docs.djangoproject.com/en/dev/ref/settings/ settings file] appropriately.
 
 *That's it!* _(See the Configuration section below for information on the
 various configurable options.)_
