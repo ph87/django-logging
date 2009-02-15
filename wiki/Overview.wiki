@@ -139,6 +139,22 @@ def some_view(request):
     ...
 }}}
 
+If you're using AJAX to request a page, you may not wish _django-logging_ to
+append its output to the response. Most Javascript libraries will add the
+`X-Requested-With: XMLHttpRequest` to AJAX requests, so you can use the
+`SuppressLoggingOnAjaxRequestsMiddleware` to stop log messages from being
+outputted. This middleware should be installed *after* the main logging
+middleware: 
+
+{{{
+MIDDLEWARE_CLASSES = (
+    ...
+    'djangologging.middleware.LoggingMiddleware',
+    'djangologging.middleware.SuppressLoggingOnAjaxRequestsMiddleware',
+    ...
+)
+}}} 
+
 = Future Features =
 
 Some things I'd like to add when I get the time:
