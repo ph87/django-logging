@@ -1,6 +1,26 @@
 ﻿#summary A very brief overview of django-logging.
 #labels Featured
 
+<table border="5" cellpadding="10">
+<tr>
+<td>
+<p><font color="red" size="4"><strong>Important announcement</strong></font></p>
+
+<p><strong>This project is no longer being maintained.</strong></p>
+
+<p>Unfortunately, I cannot commit the time needed to properly maintain django-logging, so have taken the decision to officially announce that it is no longer being supported. Should anyone wish to volunteer to adopt the project, please get in touch.</p>
+
+<p>You can of course still checkout and use the latest version, but you may wish to look instead at the excellent <a href="http://github.com/robhudson/django-debug-toolbar">Django Debug Toolbar</a>.</p>
+
+<p>Thanks to everyone who has given feedback, logged tickets and provided patches over the past few years!</p>
+
+<p><em>Fraser</em></p>
+
+</td>
+</tr>
+</table>
+<br />
+
 = Introduction =
 
 It is really useful to know what your Django project is doing, especially when
